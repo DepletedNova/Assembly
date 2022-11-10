@@ -1,0 +1,135 @@
+buildscript {
+    repositories {
+        maven { url = 'https://maven.minecraftforge.net' }
+        maven { url = 'https://repo.spongepowered.org/maven' }
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
+    }
+}
+plugins {
+    id 'net.minecraftforge.gradle' version '5.1.+'
+}
+apply plugin: 'org.spongepowered.mixin'
+apply plugin: 'idea'
+
+version = "${mc_version}-${mod_version}"
+group = "dev.${author}.${modid}"
+archivesBaseName = modid
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+minecraft {
+    mappings channel: 'official', version: "${mc_version}"
+
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+
+    runs {
+        client {
+            workingDirectory project.file('run')
+//            arg "-mixin.config=createcommodities.mixins.json"
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+
+            mods {
+                modid {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        server {
+            workingDirectory project.file('run')
+//            arg "-mixin.config=createcommodities.mixins.json"
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+
+            mods {
+                modid {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        data {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+
+            args '--mod', "${modid}", '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+
+            mods {
+                modid {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
+}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+repositories {
+    maven {
+        name "Cursemaven"
+        url "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
+    maven { // mixins
+        url = 'https://repo.spongepowered.org/repository/maven-public/'
+    }
+    maven { // JEI 1
+        name = "Progwml6 maven"
+        url = "https://dvs1.progwml6.com/files/maven/"
+    }
+    maven { // JEI 2
+        name = "ModMaven"
+        url = "https://modmaven.k-4u.nl"
+    }
+    maven { // Registrate
+        name = "tterrag maven"
+        url = "https://maven.tterrag.com/"
+    }
+}
+
+configurations {
+    shade
+}
+
+dependencies {
+    minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
+
+    compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api") // Adds JEI API as a compile dependency
+    runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}") // Adds the full JEI mod as a runtime dependency
+
+    implementation fg.deobf("com.simibubi.create:create-${mc_version}:${create_version}:all") { transitive = false }
+    implementation fg.deobf("com.jozufozu.flywheel:flywheel-forge-${mc_version}:${flywheel_version}")
+    compileOnly fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}")
+
+    implementation fg.deobf("curse.maven:craftadditions-439890:3989191") // CC&A
+
+    annotationProcessor 'org.spongepowered:mixin:0.8:processor'
+}
+
+jar {
+    manifest {
+        attributes([
+                "Specification-Title"     : modid,
+                "Specification-Vendor"    : author,
+                "Specification-Version"   : "1",
+                "Implementation-Title"    : project.name,
+                "Implementation-Version"  : project.jar.archiveVersion,
+                "Implementation-Vendor"   : author,
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+}
+
+jar.finalizedBy('reobfJar')
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+}

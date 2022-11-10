@@ -1,0 +1,30 @@
+{
+  "_": "->------------------------]  Game Elements  [------------------------<-",
+
+  "block.assembly.patch_cable": "Patch Cable",
+
+  "item.assembly.hole_puncher": "Hole Puncher",
+  "item.assembly.byte_card": "Byte Punch Card",
+
+  "_": "->------------------------]  UI & Messages  [------------------------<-",
+
+  "itemGroup.assembly": "Create Assembly",
+
+  "assembly.cable.remove": "Sneak and use to remove selection",
+  "assembly.cable.replace": "Use to move selection. Use and sneak to remove selection",
+
+  "assembly.tooltip.punch_card": "Punch Card Data:",
+
+  "_": "->------------------------]  Item Descriptions  [------------------------<-",
+
+  "block.assembly.patch_cable.tooltip": "PATCH CABLE",
+  "block.assembly.patch_cable.tooltip.summary": "Used to transfer data between other _Patch Cables_ and into various devices.",
+
+  "item.assembly.hole_puncher.tooltip": "HOLE PUNCHER",
+  "item.assembly.hole_puncher.tooltip.summary": "Used with any _Punch Card_ to create data for various devices.",
+  "item.assembly.hole_puncher.tooltip.control1": "R-Click while Sneaking",
+  "item.assembly.hole_puncher.tooltip.action1": "Opens the _Punch Card Interface_ if any _Punch Card_ is in the opposing hand.",
+
+  "item.assembly.byte_card.tooltip": "BYTE CARD",
+  "item.assembly.byte_card.tooltip.summary": "Used in devices as a simple datasheet. Highly recommended for setting a _Patch Cables_ port."
+}

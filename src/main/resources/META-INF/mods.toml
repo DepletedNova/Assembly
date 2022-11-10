@@ -1,0 +1,37 @@
+modLoader = "javafml"
+loaderVersion = "[40,)"
+license = "All Rights Reserved"
+
+[[mods]]
+modId = "assembly"
+version = "0.0a"
+displayName = "Create: Assembly"
+authors = "DepletedNova"
+description = '''
+
+'''
+
+[[dependencies.assembly]]
+modId = "forge"
+mandatory = true
+versionRange = "[40,)"
+ordering = "NONE"
+side = "BOTH"
+[[dependencies.assembly]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.18.2,1.19)"
+ordering = "NONE"
+side = "BOTH"
+[[dependencies.assembly]]
+modId="create"
+mandatory=true
+versionRange="[0.5.0.d,)"
+ordering="NONE"
+side="BOTH"
+[[dependencies.assembly]]
+modId="flywheel"
+mandatory=true
+versionRange="[0.6.5,)"
+ordering="AFTER"
+side="CLIENT"
