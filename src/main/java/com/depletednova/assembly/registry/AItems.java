@@ -1,34 +1,46 @@
 package com.depletednova.assembly.registry;
 
 import com.depletednova.assembly.Assembly;
-import com.depletednova.assembly.content.programmer.punchCard.PunchCardItem;
+import com.depletednova.assembly.content.logistics.punchCard.PunchCardItem;
 import com.depletednova.assembly.foundation.gui.PunchCardTheme;
+import com.simibubi.create.foundation.data.AssetLookup;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import net.minecraft.world.item.Item;
 
-import static com.simibubi.create.content.AllSections.CURIOSITIES;
-import static com.simibubi.create.content.AllSections.LOGISTICS;
+import static com.simibubi.create.content.AllSections.*;
 
 public class AItems {
 	private static final CreateRegistrate REGISTRATE = Assembly.getRegistrate()
 			.creativeModeTab(() -> Assembly.BASE_TAB);
 	
-	// Curiosities
 	static { REGISTRATE.startSection(CURIOSITIES); }
 	
 	public static final ItemEntry<Item> HOLE_PUNCHER = REGISTRATE.item("hole_puncher", Item::new)
 			.properties(p -> p.stacksTo(1))
+			.model(AssetLookup.existingItemModel())
 			.register();
 	
 	// programmers eye (Create: Assembly goggles variant)
 	
-	// Logistics
 	static { REGISTRATE.startSection(LOGISTICS); }
 	
 	public static final ItemEntry<PunchCardItem> BYTE_CARD = REGISTRATE.item("byte_card",
 					p -> new PunchCardItem(p, 1, PunchCardTheme.BLUE))
 			.properties(p -> p.stacksTo(1))
+			.defaultModel()
+			.register();
+	
+	static { REGISTRATE.startSection(MATERIALS); }
+	
+	public static final ItemEntry<Item> BASIC_COMPONENT = REGISTRATE.item("basic_component", Item::new)
+			.properties(p -> p.stacksTo(16))
+			.defaultModel()
+			.register();
+	
+	public static final ItemEntry<Item> ADVANCED_COMPONENT = REGISTRATE.item("advanced_component", Item::new)
+			.properties(p -> p.stacksTo(16))
+			.defaultModel()
 			.register();
 	
 	// Static loading

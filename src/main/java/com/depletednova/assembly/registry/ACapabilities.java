@@ -1,7 +1,7 @@
 package com.depletednova.assembly.registry;
 
-import com.depletednova.assembly.content.connection.INetworkable;
 import com.depletednova.assembly.events.CommonEvents;
+import com.depletednova.assembly.foundation.connectivity.INetworkable;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;

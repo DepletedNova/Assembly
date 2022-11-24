@@ -9,7 +9,7 @@ import static net.minecraft.core.Direction.NORTH;
 
 public class AShapes {
 	public static final VoxelShaper
-			CABLE_CONNECTOR = shape(5.0D, 5.0D, 0.0D, 11.0D, 11.0D, 7.0D)
+			CABLE_CONNECTOR = shape(5.5D, 5.5D, 0.0D, 10.5D, 10.5D, 5.0D)
 			.forDirectional(NORTH);
 	
 	private static Builder shape(VoxelShape shape) {

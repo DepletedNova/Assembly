@@ -1,57 +1,27 @@
 {
   "variants": {
-    "sided_direction=north": {
-      "model": "assembly:block/cable/port"
+    "facing=north": {
+      "model": "assembly:block/patch_cable/base"
     },
-    "sided_direction=east": {
-      "model": "assembly:block/cable/port",
+    "facing=east": {
+      "model": "assembly:block/patch_cable/base",
       "y": 90
     },
-    "sided_direction=south": {
-      "model": "assembly:block/cable/port",
+    "facing=south": {
+      "model": "assembly:block/patch_cable/base",
       "y": 180
     },
-    "sided_direction=west": {
-      "model": "assembly:block/cable/port",
+    "facing=west": {
+      "model": "assembly:block/patch_cable/base",
       "y": 270
     },
-    "sided_direction=north_down": {
-      "model": "assembly:block/cable/port",
-      "x": 90
-    },
-    "sided_direction=east_down": {
-      "model": "assembly:block/cable/port",
-      "y": 90,
-      "x": 90
-    },
-    "sided_direction=south_down": {
-      "model": "assembly:block/cable/port",
-      "y": 180,
-      "x": 90
-    },
-    "sided_direction=west_down": {
-      "model": "assembly:block/cable/port",
-      "y": 270,
-      "x": 90
-    },
-    "sided_direction=north_up": {
-      "model": "assembly:block/cable/port",
-      "y": 180,
+    "facing=up": {
+      "model": "assembly:block/patch_cable/base",
       "x": 270
     },
-    "sided_direction=east_up": {
-      "model": "assembly:block/cable/port",
-      "y": 270,
-      "x": 270
-    },
-    "sided_direction=south_up": {
-      "model": "assembly:block/cable/port",
-      "x": 270
-    },
-    "sided_direction=west_up": {
-      "model": "assembly:block/cable/port",
-      "y": 90,
-      "x": 270
+    "facing=down": {
+      "model": "assembly:block/patch_cable/base",
+      "x": 90
     }
   }
 }

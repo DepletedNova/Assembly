@@ -1,7 +1,6 @@
 package com.depletednova.assembly.content.connection.patchCable;
 
 import com.depletednova.assembly.AssemblyClient;
-import com.depletednova.assembly.registry.ABlockProperties;
 import com.depletednova.assembly.registry.ABlocks;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -13,6 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -77,7 +77,7 @@ public class CableItem extends BlockItem {
 	}
 	
 	public static boolean place(CablePlacementContext context, Level level, Player player) {
-		BlockState state = ABlocks.PATCH_CABLE.getDefaultState().setValue(ABlockProperties.SIDED_DIRECTION, context.direction);
+		BlockState state = ABlocks.PATCH_CABLE.getDefaultState().setValue(DirectionalBlock.FACING, context.direction);
 		if (!level.setBlock(context.position, state, 11))
 			return false;
 		

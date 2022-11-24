@@ -1,7 +1,8 @@
-package com.depletednova.assembly.content.programmer.punchCard;
+package com.depletednova.assembly.content.logistics.punchCard;
 
 import com.depletednova.assembly.foundation.utility.BinaryHelper;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.TntBlock;
 
 import java.util.Arrays;
 import java.util.List;

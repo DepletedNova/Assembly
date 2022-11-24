@@ -1,0 +1,7 @@
+4811eb3f6490c98b095045e451735032c0516848 assets/assembly/lang/en_ud.json
+6d10dfd642f9e5baf4104eb14d87a901ca440d3f assets/assembly/lang/en_us.json
+cc844d63907f44ab8c11722cc52c6c8101da53c2 assets/assembly/models/item/advanced_component.json
+ace1d62c20f6dc7c462063f840120b3a880beb41 assets/assembly/models/item/basic_component.json
+497f1765d386e3f3ba706a985441b79c69038983 assets/assembly/models/item/byte_card.json
+cb7bdf7ead1e236af3279d17001450941a6dfc71 assets/assembly/models/item/patch_cable.json
+0e3542511c177c9b6b3e217943e92a6561e51641 data/assembly/loot_tables/blocks/patch_cable.json

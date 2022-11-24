@@ -6,10 +6,10 @@ import java.util.List;
 
 public class DescriptionHelper {
 	public static String createBinaryBar(List<Boolean> bools) {
-		String bar = " ";
+		String bar = "";
 		for (Boolean bool : bools)
 			bar += bool ? "\u2588" : "\u2592";
-		return bar + " ";
+		return bar;
 	}
 	
 	public static String createBinaryBar(byte data) {

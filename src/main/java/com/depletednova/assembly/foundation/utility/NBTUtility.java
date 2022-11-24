@@ -1,4 +1,4 @@
-package com.depletednova.assembly.foundation.utility.nbt;
+package com.depletednova.assembly.foundation.utility;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -20,6 +20,6 @@ public class NBTUtility {
 	
 	// Check
 	public static boolean hasBlockpos(String key, CompoundTag nbt) {
-		return nbt.hasUUID(key + "X");
+		return !(nbt.getInt(key + "X") == 0 && nbt.getInt(key + "Y") == 0 && nbt.getInt(key + "Z") == 0);
 	}
 }

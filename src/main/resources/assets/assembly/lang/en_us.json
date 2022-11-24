@@ -5,6 +5,8 @@
 
   "item.assembly.hole_puncher": "Hole Puncher",
   "item.assembly.byte_card": "Byte Punch Card",
+  "item.assembly.advanced_component": "Advanced Component",
+  "item.assembly.basic_component": "Basic Component",
 
   "_": "->------------------------]  UI & Messages  [------------------------<-",
 
@@ -13,6 +15,7 @@
   "assembly.cable.remove": "Sneak and use to remove selection",
   "assembly.cable.replace": "Use to move selection. Use and sneak to remove selection",
 
+  "assembly.tooltip.cable": "Port Route Data:",
   "assembly.tooltip.punch_card": "Punch Card Data:",
 
   "_": "->------------------------]  Item Descriptions  [------------------------<-",

@@ -1,19 +1,22 @@
 package com.depletednova.assembly.content.connection.patchCable;
 
-import com.depletednova.assembly.content.connection.INetworkable;
-import com.depletednova.assembly.content.connection.NetworkPacket;
-import com.depletednova.assembly.content.programmer.punchCard.PunchCardHelper;
-import com.depletednova.assembly.foundation.utility.nbt.NBTUtility;
-import com.depletednova.assembly.registry.ABlockProperties;
+import com.depletednova.assembly.foundation.AssemblyLang;
+import com.depletednova.assembly.foundation.connectivity.INetworkable;
+import com.depletednova.assembly.foundation.connectivity.NetworkHelper;
+import com.depletednova.assembly.foundation.item.DescriptionHelper;
+import com.depletednova.assembly.foundation.utility.NBTUtility;
+import com.depletednova.assembly.registry.ABlocks;
 import com.depletednova.assembly.registry.ACapabilities;
-import com.depletednova.assembly.registry.AItems;
+import com.simibubi.create.content.contraptions.goggles.IHaveHoveringInformation;
 import com.simibubi.create.foundation.tileEntity.SmartTileEntity;
 import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -25,21 +28,22 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CableTileEntity extends SmartTileEntity implements INetworkable {
+import static net.minecraft.ChatFormatting.GRAY;
+import static net.minecraft.ChatFormatting.YELLOW;
+
+public class CableTileEntity extends SmartTileEntity implements INetworkable, IHaveHoveringInformation {
 	public CableTileEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
 		connectedCables = new ArrayList<>();
-		storedItem = ItemStack.EMPTY;
 		port = 0;
 		capability = LazyOptional.of(() -> this);
 	}
 	
 	// Variables
 	public List<BlockPos> connectedCables;
-	public ItemStack storedItem;
-	private byte port;
+	protected byte port;
 	
-	// Behavior
+	// Behaviors
 	@Override
 	public void addBehaviours(List<TileEntityBehaviour> behaviours) {
 	
@@ -47,23 +51,30 @@ public class CableTileEntity extends SmartTileEntity implements INetworkable {
 	
 	// Cable Network
 	@Override
-	public void acceptNetwork(NetworkPacket<? extends BlockEntity> packet, BlockPos from) {
+	public void acceptNetwork(CompoundTag packet, BlockPos from, boolean ping) {
 		if (this.level == null)
 			return;
+		
+		// Update packet if necessary
+		if (packet.getByte("Port") == (byte) 0 && !level.getBlockState(from).is(ABlocks.PATCH_CABLE.get()))
+			packet.putByte("Port", port);
+		
 		// Direct signal
-		if (packet.port == this.port) {
-			Direction direction = this.getBlockState().getValue(ABlockProperties.SIDED_DIRECTION).toDirection();
-			INetworkable.withNetwork(this.level, this.getBlockPos(), direction, (ste, network) -> {
-				if (this.getBlockPos().relative(direction) != from)
-					network.acceptNetwork(packet, this.getBlockPos());
-			});
+		if (packet.getByte("Port") == this.port) {
+			Direction direction = this.getBlockState().getValue(DirectionalBlock.FACING);
+			if (!this.getBlockPos().relative(direction).equals(from)) {
+				NetworkHelper.withNetwork(this.level, this.getBlockPos(), direction, (ste, network) -> {
+					network.acceptNetwork(packet, this.getBlockPos(), ping);
+				});
+			}
 		}
+		
 		// Continue signal
-		this.invokeNetwork(packet, from);
+		this.invokeNetwork(packet, from, ping);
 	}
 	
 	@Override
-	public void invokeNetwork(NetworkPacket<? extends BlockEntity> packet, BlockPos from) {
+	public void invokeNetwork(CompoundTag packet, BlockPos from, boolean ping) {
 		if (this.level == null)
 			return;
 		for (BlockPos to : connectedCables) {
@@ -73,7 +84,8 @@ public class CableTileEntity extends SmartTileEntity implements INetworkable {
 			BlockEntity entity = this.level.getExistingBlockEntity(to);
 			if (!(entity instanceof CableTileEntity cable))
 				continue;
-			cable.acceptNetwork(packet, this.getBlockPos());
+			
+			cable.acceptNetwork(packet, this.getBlockPos(), ping);
 		}
 	}
 	
@@ -84,7 +96,7 @@ public class CableTileEntity extends SmartTileEntity implements INetworkable {
 	@Override
 	public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
 		BlockState state = this.getBlockState();
-		Direction dir = state.getValue(ABlockProperties.SIDED_DIRECTION).toDirection();
+		Direction dir = state.getValue(DirectionalBlock.FACING);
 		if ((side == null || side.equals(dir)) && cap.equals(ACapabilities.NETWORK))
 			return this.capability.cast();
 		
@@ -96,18 +108,14 @@ public class CableTileEntity extends SmartTileEntity implements INetworkable {
 	protected void read(CompoundTag tag, boolean clientPacket) {
 		super.read(tag, clientPacket);
 		port = tag.getByte("Port");
-		// Generate item
-		boolean hasItem = tag.getBoolean("Item");
-		if (hasItem) {
-			storedItem = AItems.BYTE_CARD.asStack();
-			PunchCardHelper.setRowRaw(storedItem, 1, port);
-		}
-		// Input cable positions
+		// Cable positions
 		connectedCables.clear();
+		if (!tag.hasUUID("Cables") || !(tag.get("Cables") instanceof ListTag cables))
+			return;
 		for (int i = 0; i < getMaxConnections(); i++) {
 			if (!NBTUtility.hasBlockpos("Cable_" + i, tag))
 				continue;
-			connectedCables.set(i, NBTUtility.readBlockpos("Cable_" + i, tag));
+			connectedCables.add(NBTUtility.readBlockpos("Cable_" + i, tag));
 		}
 	}
 	
@@ -115,13 +123,9 @@ public class CableTileEntity extends SmartTileEntity implements INetworkable {
 	protected void write(CompoundTag tag, boolean clientPacket) {
 		super.write(tag, clientPacket);
 		tag.putByte("Port", port);
-		tag.putBoolean("Item", storedItem != null);
-		for (int i = 0; i < connectedCables.size(); i++) {
-			BlockPos newPos = connectedCables.get(i);
-			if (newPos == null)
-				continue;
-			NBTUtility.putBlockpos("Cable_" + i, newPos, tag);
-		}
+		// Cable positions
+		for (int i = 0; i < connectedCables.size(); i++)
+			NBTUtility.putBlockpos("Cable_" + i, connectedCables.get(i), tag);
 	}
 	
 	// Routing
@@ -172,5 +176,20 @@ public class CableTileEntity extends SmartTileEntity implements INetworkable {
 	// Settings
 	public int getMaxConnections() {
 		return 8;
+	}
+	
+	// Port
+	@Override
+	public boolean addToTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
+		AssemblyLang.translate("tooltip.cable")
+				.style(GRAY)
+				.forGoggles(tooltip);
+		
+		AssemblyLang.lang()
+				.text(DescriptionHelper.createBinaryBar(port) + " ")
+				.style(YELLOW)
+				.forGoggles(tooltip, -1);
+		
+		return true;
 	}
 }

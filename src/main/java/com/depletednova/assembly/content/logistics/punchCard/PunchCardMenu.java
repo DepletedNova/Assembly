@@ -1,6 +1,5 @@
-package com.depletednova.assembly.content.programmer.punchCard;
+package com.depletednova.assembly.content.logistics.punchCard;
 
-import com.depletednova.assembly.AssemblyClient;
 import com.depletednova.assembly.foundation.gui.PunchCardTheme;
 import com.depletednova.assembly.foundation.gui.widgets.GenericButtonWidget;
 import com.depletednova.assembly.registry.AItems;

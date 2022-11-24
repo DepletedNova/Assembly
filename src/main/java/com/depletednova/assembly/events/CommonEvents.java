@@ -1,6 +1,6 @@
 package com.depletednova.assembly.events;
 
-import com.depletednova.assembly.content.connection.INetworkable;
+import com.depletednova.assembly.foundation.connectivity.INetworkable;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
