@@ -4,15 +4,13 @@ import com.depletednova.assembly.Assembly;
 import com.depletednova.assembly.content.connection.patchCable.CableBlock;
 import com.depletednova.assembly.content.connection.patchCable.CableItem;
 import com.depletednova.assembly.content.logistics.instructor.InstructorBlock;
-import com.simibubi.create.foundation.data.AssetLookup;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.simibubi.create.foundation.data.SharedProperties;
 import com.tterrag.registrate.util.entry.BlockEntry;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 
-import static com.simibubi.create.content.AllSections.*;
-import static com.simibubi.create.foundation.data.ModelGen.*;
+import static com.simibubi.create.content.AllSections.LOGISTICS;
+import static com.simibubi.create.foundation.data.ModelGen.customItemModel;
 
 public class ABlocks {
 	private static final CreateRegistrate REGISTRATE = Assembly.getRegistrate()

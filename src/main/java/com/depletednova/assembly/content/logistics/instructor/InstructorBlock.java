@@ -5,12 +5,20 @@ import com.simibubi.create.content.contraptions.base.HorizontalKineticBlock;
 import com.simibubi.create.foundation.block.ITE;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.network.NetworkHooks;
 
 public class InstructorBlock extends HorizontalKineticBlock implements ITE<InstructorTileEntity> {
 	public InstructorBlock(Properties properties) {
@@ -18,10 +26,28 @@ public class InstructorBlock extends HorizontalKineticBlock implements ITE<Instr
 	}
 	
 	@Override
+	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+		if (player == null)
+			return InteractionResult.PASS;
+		if (player.isSteppingCarefully())
+			return InteractionResult.PASS;
+		
+		if (player instanceof FakePlayer)
+			return InteractionResult.PASS;
+		if (level.isClientSide)
+			return InteractionResult.SUCCESS;
+		
+		withTileEntityDo(level, pos,
+				instructor -> NetworkHooks.openGui((ServerPlayer) player, instructor, instructor::sendToContainer));
+		
+		return InteractionResult.SUCCESS;
+	}
+	
+	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
 		Direction preferred = getPreferredHorizontalFacing(context);
 		if (preferred != null)
-			return defaultBlockState().setValue(HORIZONTAL_FACING, preferred.getOpposite());
+			return this.defaultBlockState().setValue(HORIZONTAL_FACING, preferred.getOpposite());
 		return this.defaultBlockState().setValue(HORIZONTAL_FACING, context.getHorizontalDirection().getOpposite());
 	}
 	

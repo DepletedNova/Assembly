@@ -12,8 +12,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public enum AllUITextures implements ScreenElement {
 	// Instructor
-	INSTRUCTOR_MAIN("instructor", 0, 0, 205, 138),
-	COMPONENT_PREVIEW("instructor", 0, 138, 67, 118),
+	INSTRUCTOR("instructor", 0, 0, 205, 138),
+	INSTRUCTOR_INVENTORY("instructor", 0, 138, 179, 91),
+	INSTRUCTOR_TAB_ACTIVE("instructor", 0, 229, 21, 9),
+	INSTRUCTOR_TAB_INACTIVE("instructor", 21, 229, 21, 9),
 	;
 	
 	public final ResourceLocation location;

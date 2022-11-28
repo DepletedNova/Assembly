@@ -1,5 +1,6 @@
 package com.depletednova.assembly;
 
+import com.depletednova.assembly.content.logistics.instructor.InstructorTabRegistry;
 import com.depletednova.assembly.registry.*;
 import com.mojang.logging.LogUtils;
 import com.simibubi.create.foundation.data.CreateRegistrate;
@@ -27,10 +28,13 @@ public class Assembly {
 		
 		forgeEventBus.register(this);
 		
+		InstructorTabRegistry.register();
+		
 		ABlocks.register();
 		ATileEntities.register();
 		AItems.register();
 		ABlockPartials.register();
+		AContainerTypes.register();
 		
 		modEventBus.addListener(EventPriority.LOW, Assembly::init);
 	}

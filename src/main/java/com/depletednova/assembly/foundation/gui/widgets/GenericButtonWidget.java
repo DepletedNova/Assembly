@@ -2,14 +2,17 @@ package com.depletednova.assembly.foundation.gui.widgets;
 
 import com.depletednova.assembly.foundation.utility.consumers.QuadConsumer;
 import com.depletednova.assembly.foundation.utility.consumers.TriConsumer;
+import com.jozufozu.flywheel.util.NonNullSupplier;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.simibubi.create.foundation.gui.widget.AbstractSimiWidget;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
 import java.util.function.BiConsumer;
 
 public class GenericButtonWidget extends AbstractSimiWidget {
@@ -33,6 +36,11 @@ public class GenericButtonWidget extends AbstractSimiWidget {
 	}
 	public GenericButtonWidget withRenderCallback(TriConsumer<PoseStack, Integer, Integer> callback) {
 		return withRenderCallback((ms, x, y, _$) -> callback.accept(ms, x, y));
+	}
+	
+	public GenericButtonWidget setTooltip(java.util.List<Component> components) {
+		this.toolTip = components;
+		return this;
 	}
 	
 	// Settings
