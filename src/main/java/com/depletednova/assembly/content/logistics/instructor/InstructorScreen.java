@@ -8,6 +8,7 @@ import com.simibubi.create.foundation.gui.container.AbstractSimiContainerScreen;
 import net.minecraft.client.gui.components.Widget;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
@@ -29,6 +30,8 @@ public class InstructorScreen extends AbstractSimiContainerScreen<InstructorCont
 	protected List<String> tabList;
 	protected int tabIndex;
 	
+	public CompoundTag tabData;
+	
 	protected AbstractInstructorTab currentTab;
 	
 	@Override
@@ -45,9 +48,10 @@ public class InstructorScreen extends AbstractSimiContainerScreen<InstructorCont
 	}
 	
 	public void resetTabs() {
+		tabData = new CompoundTag();
 		tabList = new ArrayList<>();
 		tabList.add(InstructorTabRegistry.INVENTORY.id);
-		tabList.add(InstructorTabRegistry.TEST.id);
+		tabList.add(InstructorTabRegistry.SETTINGS.id);
 		updateTab(0);
 	}
 	
@@ -89,6 +93,10 @@ public class InstructorScreen extends AbstractSimiContainerScreen<InstructorCont
 			}
 			addRenderableWidget(tabButton);
 		}
+	}
+	
+	public void addTab(AbstractInstructorTab tab) {
+		this.tabList.add(tab.getId());
 	}
 	
 	@Override

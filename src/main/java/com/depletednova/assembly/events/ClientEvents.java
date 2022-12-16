@@ -2,9 +2,7 @@ package com.depletednova.assembly.events;
 
 import com.depletednova.assembly.Assembly;
 import com.depletednova.assembly.AssemblyClient;
-import com.depletednova.assembly.foundation.item.ICustomDescription;
 import com.simibubi.create.foundation.item.TooltipHelper;
-import com.simibubi.create.foundation.utility.Components;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -51,14 +49,6 @@ public class ClientEvents {
 				TooltipHelper.getTooltip(stack)
 						.addInformation(toolTip);
 				itemTooltip.addAll(0, toolTip);
-			}
-		}
-		
-		if (stack.getItem() instanceof ICustomDescription item) {
-			List<Component> customDescription = item.getCustomDescription(stack, event.getPlayer());
-			if (!customDescription.isEmpty()) {
-				event.getToolTip().add(Components.immutableEmpty());
-				event.getToolTip().addAll(customDescription);
 			}
 		}
 	}

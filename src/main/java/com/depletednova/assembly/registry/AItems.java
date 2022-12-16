@@ -1,6 +1,8 @@
 package com.depletednova.assembly.registry;
 
 import com.depletednova.assembly.Assembly;
+import com.depletednova.assembly.content.logistics.instructor.component.ComponentDriveColor;
+import com.depletednova.assembly.content.logistics.instructor.component.ComponentDriveItem;
 import com.depletednova.assembly.content.logistics.punchCard.PunchCardItem;
 import com.depletednova.assembly.foundation.gui.PunchCardTheme;
 import com.simibubi.create.foundation.data.AssetLookup;
@@ -29,6 +31,12 @@ public class AItems {
 					p -> new PunchCardItem(p, 1, PunchCardTheme.BLUE))
 			.properties(p -> p.stacksTo(1))
 			.defaultModel()
+			.register();
+	
+	public static final ItemEntry<ComponentDriveItem> COMPONENT_DRIVE = REGISTRATE.item("component_drive", ComponentDriveItem::new)
+			.properties(p -> p.stacksTo(1))
+			.color(() -> ComponentDriveColor::new)
+			.model(AssetLookup.existingItemModel())
 			.register();
 	
 	static { REGISTRATE.startSection(MATERIALS); }

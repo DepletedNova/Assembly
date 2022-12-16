@@ -3,30 +3,31 @@ package com.depletednova.assembly.content.logistics.punchCard;
 import com.depletednova.assembly.foundation.AssemblyLang;
 import com.depletednova.assembly.foundation.gui.PunchCardTheme;
 import com.depletednova.assembly.foundation.item.DescriptionHelper;
-import com.depletednova.assembly.foundation.item.ICustomDescription;
 import com.depletednova.assembly.registry.AItems;
 import com.simibubi.create.foundation.gui.ScreenOpener;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.DistExecutor;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
 import java.util.List;
 
 import static net.minecraft.ChatFormatting.GRAY;
 import static net.minecraft.ChatFormatting.YELLOW;
 
 @ParametersAreNonnullByDefault
-public class PunchCardItem extends Item implements ICustomDescription {
+public class PunchCardItem extends Item {
 	public PunchCardItem(Properties properties, int rows, PunchCardTheme theme) {
 		super(properties);
 		this.ROWS = rows;
@@ -65,20 +66,18 @@ public class PunchCardItem extends Item implements ICustomDescription {
 	}
 	
 	@Override
-	public List<Component> getCustomDescription(ItemStack stack, Player player) {
-		List<Component> slots = new ArrayList<>();
-
+	public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> components, TooltipFlag flag) {
+		components.add(TextComponent.EMPTY);
+		
 		AssemblyLang.translate("tooltip.punch_card")
 				.style(GRAY)
-				.addTo(slots);
-
+				.addTo(components);
+		
 		for (int i = 1; i < ROWS + 1; i++) {
 			AssemblyLang.lang()
 					.text(" " + DescriptionHelper.createBinaryBar(PunchCardHelper.getRow(stack, i)))
 					.style(YELLOW)
-					.addTo(slots);
+					.addTo(components);
 		}
-
-		return slots;
 	}
 }

@@ -1,8 +1,5 @@
 package com.depletednova.assembly.content.logistics.instructor;
 
-import com.depletednova.assembly.Assembly;
-import com.simibubi.create.foundation.data.CreateRegistrate;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -10,7 +7,7 @@ import java.util.function.BiConsumer;
 public class InstructorTabRegistry {
 	public static final List<TabRegistry<? extends AbstractInstructorTab>> registries = new ArrayList<>();
 	public static final TabRegistry<InventoryInstructorTab> INVENTORY = new TabRegistry<>(new InventoryInstructorTab(), InventoryInstructorTab::addSlots);
-	public static final TabRegistry<TestInstructorTab> TEST = new TabRegistry<>(new TestInstructorTab(), AbstractInstructorTab::noSlots);
+	public static final TabRegistry<SettingsInstructorTab> SETTINGS = new TabRegistry<>(new SettingsInstructorTab(), AbstractInstructorTab::noSlots);
 	
 	public static void register() {}
 	

@@ -2,10 +2,10 @@ package com.depletednova.assembly.content.logistics.instructor;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
-public class TestInstructorTab extends AbstractInstructorTab {
+public class SettingsInstructorTab extends AbstractInstructorTab {
 	@Override
 	public String getId() {
-		return "test";
+		return "settings";
 	}
 	
 	@Override

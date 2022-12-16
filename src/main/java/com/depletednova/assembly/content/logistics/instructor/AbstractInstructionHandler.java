@@ -6,9 +6,9 @@ import net.minecraft.world.item.Item;
 import java.util.List;
 
 public abstract class AbstractInstructionHandler {
-	public abstract Item getInstructionItem();
-	
 	public abstract void init(InstructorScreen screen);
 	
-	public void renderExtra(PoseStack ms, float leftPos, float topPos) {}
+	public abstract List<? extends AbstractInstructorTab> getTabs();
+	
+	public void render(PoseStack ms, float leftPos, float topPos) {}
 }
