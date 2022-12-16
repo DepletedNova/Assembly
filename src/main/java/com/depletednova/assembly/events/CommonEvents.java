@@ -1,6 +1,6 @@
 package com.depletednova.assembly.events;
 
-import com.depletednova.assembly.content.CatenaryCommand;
+//import com.depletednova.assembly.content.CatenaryCommand;
 import com.depletednova.assembly.foundation.connectivity.INetworkable;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -16,6 +16,6 @@ public class CommonEvents {
 	
 	@SubscribeEvent
 	public static void onCommandsRegister(RegisterCommandsEvent event) {
-		new CatenaryCommand(event.getDispatcher());
+		//new CatenaryCommand(event.getDispatcher());
 	}
 }
